@@ -54,7 +54,7 @@ const Hero2 = () => {
       </div>
 
       {/* Content container with z-index to appear above the background */}
-      <div className="relative z-10 flex flex-col min-h-screen text-white md:gap-32 gap-28">
+      <div className="relative z-10 flex flex-col min-h-screen text-white md:gap-32 gap-28 pb-[100px]">
         <Navbar />
         <TextPart />
         <Form />
