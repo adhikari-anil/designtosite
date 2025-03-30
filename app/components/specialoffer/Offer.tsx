@@ -2,11 +2,33 @@
 import { Carousel } from "@mantine/carousel";
 import Cards from "./Card";
 import { Left, Right } from "../svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Offer = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 8;
+  const [cardsPerSlide, setCardsPerSlide] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setCardsPerSlide(3); // Large screens - 3 cards
+      } else if (window.innerWidth >= 768) {
+        setCardsPerSlide(2); // Medium screens - 2 cards
+      } else {
+        setCardsPerSlide(1); // Mobile - 1 card
+      }
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handlePrevious = () => {
     setCurrentSlide((prev) => (prev > 0 ? prev - 1 : totalSlides - 1));
@@ -35,8 +57,10 @@ const Offer = () => {
             key={index}
             className="flex flex-col justify-center items-center text-white rounded-[16px] p-[40px] px-[20px]"
           >
-            <div className="lg:grid lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3 gap-8">
               <Cards />
+              {cardsPerSlide >= 2 && <Cards />}
+              {cardsPerSlide === 3 && <Cards />}
             </div>
           </Carousel.Slide>
         ))}
